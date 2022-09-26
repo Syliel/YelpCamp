@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(`${baseRoute}`, express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize()); //this takes care of Mongo Injection attacks!!!!
 
 const secret=process.env.SECRET||'thisshouldbeabettersecret';
@@ -149,6 +149,8 @@ app.use(`${baseRoute}campgrounds/:id/reviews`, reviewRoutes);
 app.get(baseRoute, (req, res) => {
     res.render('home')
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
