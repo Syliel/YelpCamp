@@ -2,7 +2,7 @@
     <div id="cluster-map" class="map"></div>
     <h1>All Campgrounds</h1>
     <div>
-        <a href="/campgrounds/new">Add Campground</a>
+        <a href="campgrounds/new">Add Campground</a>
     </div>
     <% for (let campground of campgrounds) { %>
         <div class="card mb-3">
@@ -28,7 +28,7 @@
                                 <%= campground.location %>
                             </small>
                         </p>
-                        <a href="/campgrounds/<%= campground._id %> " class="btn btn-primary">View <%= campground.title
+                        <a href="campgrounds/<%= campground._id %> " class="btn btn-primary">View <%= campground.title
                                 %> </a>
                     </div>
                 </div>
