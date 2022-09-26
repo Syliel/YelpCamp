@@ -51,7 +51,7 @@
                 <!-- this below checks to see if there's a current user and the campground author = the current users id and hides buttons or shows them -->
                 <% if(currentUser && campground.author.equals(currentUser._id)) {%>
                     <div class="card-body">
-                        <a href="/campgrounds/<%= campground._id %>/edit" class="card-link btn btn-info">Edit</a>
+                        <a href="campgrounds/<%= campground._id %>/edit" class="card-link btn btn-info">Edit</a>
                         <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
@@ -65,7 +65,7 @@
         <div class="col-6">
             <div id='map'></div>
             <% if(currentUser) {%>
-                <form action="/campgrounds/<%= campground._id %>/reviews" class="mb-3 validated-form" method="POST"
+                <form action="campgrounds/<%= campground._id %>/reviews" class="mb-3 validated-form" method="POST"
                     novalidate>
                     <!-- <div class="mb-3">
                         <label for="rating" class="form-label">Rating:</label>
@@ -111,7 +111,7 @@
                                 </footer>
                                 <% if(currentUser && review.author.equals(currentUser._id)) {%>
                                     <form
-                                        action="/campgrounds/<%= campground._id  %>/reviews/<%= review._id %>?_method=DELETE"
+                                        action="campgrounds/<%= campground._id  %>/reviews/<%= review._id %>?_method=DELETE"
                                         method="POST">
                                         <button class="btn btn-sm btn-danger">Delete</button>
                                     </form>

@@ -16,11 +16,13 @@ const LocalStrategy=require('passport-local');
 const User=require('./models/user');
 const helmet=require('helmet');
 const mongoSanitize=require('express-mongo-sanitize');
+const baseRoute=require('./utils/baseRoute')||'/';
 
 const userRoutes=require('./routes/users')
 const campgroundRoutes=require('./routes/campgrounds');
 const reviewRoutes=require('./routes/reviews');
 const MongoStore=require("connect-mongo");
+const { base }=require('./models/user');
 const dbUrl=process.env.DB_URL||'mongodb://localhost:27017/yelp-camp';
 
 //dbUrl would go under connect
@@ -120,7 +122,7 @@ passport.serializeUser(User.serializeUser()); //how do we store a user in the se
 passport.deserializeUser(User.deserializeUser()); //how we get a user out of the session. Unstoring
 
 app.use((req, res, next) => {
-    if (!['/login', '/'].includes(req.originalUrl)) {
+    if (![`${baseRoute}login`, baseRoute].includes(req.originalUrl)) {
         req.session.returnTo=req.originalUrl;
     }
     res.locals.currentUser=req.user;
@@ -139,12 +141,12 @@ app.use((req, res, next) => {
 //this is the basic format for using passport and I'm leaving it here as reference
 //passport uses Pbkdf2 instead of bcrypt because its platform independent 
 
-app.use('/', userRoutes);
-app.use('/campgrounds', campgroundRoutes);
-app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use(`${baseRoute}`, userRoutes);
+app.use(`${baseRoute}campgrounds`, campgroundRoutes);
+app.use(`${baseRoute}campgrounds/:id/reviews`, reviewRoutes);
 
 
-app.get('/', (req, res) => {
+app.get(baseRoute, (req, res) => {
     res.render('home')
 });
 

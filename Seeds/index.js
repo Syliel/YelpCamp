@@ -4,7 +4,12 @@ const { places, descriptors }=require('./seedHelpers')
 const Campground=require('../models/campground');
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+    // await mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+    if ! (process.env.DB_URL)  {
+        console.log("Must export DB_URL=''");
+        process.exit(2)
+    }
+    await mongoose.connect(, {
     });
 };
 
