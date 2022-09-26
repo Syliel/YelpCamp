@@ -1,5 +1,6 @@
 const Review = require('../models/review')
 const Campground = require('../models/campground');
+const baseRoute=require('../utils/baseRoute')||'/';
 
 module.exports.createReview = async (req, res) => {
     const campground = await Campground.findById(req.params.id);
@@ -9,7 +10,7 @@ module.exports.createReview = async (req, res) => {
     await review.save();
     await campground.save();
     req.flash('success', 'Created New Review!')
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`${baseRoute}campgrounds/${campground._id}`);
 }
 
 module.exports.deleteReview = async (req, res) => {
@@ -19,5 +20,5 @@ module.exports.deleteReview = async (req, res) => {
     //this uses the $pull operator in mongo which removes from an existing array all instances of a value or values that match a specified condition
     await Review.findByIdAndDelete(reviewId);
     req.flash('success', 'Review Deleted!')
-    res.redirect(`/campgrounds/${id}`);
+    res.redirect(`${baseRoute}campgrounds/${id}`);
 }

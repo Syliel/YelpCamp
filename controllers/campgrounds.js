@@ -3,6 +3,7 @@ const mbxGeocoding=require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken=process.env.MAPBOX_TOKEN;
 const geocoder=mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary }=require('../cloudinary');
+const baseRoute=require('../utils/baseRoute')||'/';
 
 
 
@@ -30,7 +31,7 @@ module.exports.createCamp=async (req, res, next) => {
     await campground.save();
     console.log(campground);
     req.flash('success', 'Succesfully made a new campground!');
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`${baseRoute}campgrounds/${campground._id}`);
 }
 
 module.exports.showCamp=async (req, res) => {
@@ -42,7 +43,7 @@ module.exports.showCamp=async (req, res) => {
     }).populate('author');
     if (!campground) {
         req.flash('error', 'Campground Not Found!');
-        return res.redirect('/campgrounds');
+        return res.redirect(`${baseRoute}campgrounds`);
     }
     res.render('campgrounds/show', { campground });
 }
@@ -51,7 +52,7 @@ module.exports.editCamp=async (req, res) => {
     const campground=await Campground.findById(req.params.id)
     if (!campground) {
         req.flash('error', 'Campground Not Found!');
-        return res.redirect('/campgrounds');
+        return res.redirect(`${baseRoute}campgrounds`);
     }
     res.render('campgrounds/edit', { campground });
 }
@@ -71,12 +72,12 @@ module.exports.updateCamp=async (req, res) => {
         console.log(campground)
     };
     req.flash('success', 'Updated Campground!')
-    res.redirect(`/campgrounds/${campground._id}`)
+    res.redirect(`${baseRoute}campgrounds/${campground._id}`)
 }
 
 module.exports.deleteCamp=async (req, res) => {
     const { id }=req.params;
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Campground Removed')
-    res.redirect('/campgrounds');
+    res.redirect(`${baseRoute}campgrounds`);
 }
